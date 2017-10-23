@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"os"
 	"text/template"
+	"time"
 )
 
 const (
@@ -38,5 +39,6 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, "Can't get hostname", 500)
 	}
-	indexTmpl.Execute(w, hostname)
+	str := fmt.Sprintf("%s at %v", hostname, time.Now().Format("15:04:05"))
+	indexTmpl.Execute(w, str)
 }
