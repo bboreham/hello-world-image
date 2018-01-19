@@ -35,7 +35,12 @@ func logoHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "logo.png")
 }
 
+var sleepTime = time.Duration(2 * time.Second)
+
 func indexHandler(w http.ResponseWriter, r *http.Request) {
+
+	time.Sleep(sleepTime)
+
 	hostname, err := os.Hostname()
 	if err != nil {
 		http.Error(w, "Can't get hostname", 500)
@@ -52,5 +57,8 @@ func metricsHandler(w http.ResponseWriter, r *http.Request) {
 # HELP helloworld_requests Number of requests handled
 # TYPE helloworld_requests counter
 helloworld_requests %d
-`, requestsCounter)
+# HELP helloworld_latency_seconds Average latency
+# TYPE helloworld_latency_seconds gauge
+helloworld_latency %f
+`, requestsCounter, sleepTime.Seconds())
 }
