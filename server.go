@@ -24,6 +24,7 @@ func init() {
 func main() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/logo.png", logoHandler)
+	http.HandleFunc("/metrics", metricsHandler)
 	log.Printf("Listening on port %d", port)
 	server := &http.Server{Addr: fmt.Sprintf(":%d", port)}
 	server.SetKeepAlivesEnabled(false)
@@ -41,4 +42,15 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	str := fmt.Sprintf("%s at %v", hostname, time.Now().Format("15:04:05"))
 	indexTmpl.Execute(w, str)
+	requestsCounter++
+}
+
+var requestsCounter int // this should really be atomic
+
+func metricsHandler(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, `
+# HELP helloworld_requests Number of requests handled
+# TYPE helloworld_requests counter
+helloworld_requests %d
+`, requestsCounter)
 }
