@@ -35,7 +35,7 @@ func logoHandler(w http.ResponseWriter, r *http.Request) {
 	http.ServeFile(w, r, "logo.png")
 }
 
-var sleepTime = time.Duration(10 * time.Millisecond)
+var sleepTime = time.Duration(2000 * time.Millisecond)
 
 func indexHandler(w http.ResponseWriter, r *http.Request) {
 
