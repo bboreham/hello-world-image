@@ -11,7 +11,7 @@
       body {
         text-align: center;
         background: #28283C;
-        color: #f00;
+        color: #fff;
         height: 100%
       }
       section {
